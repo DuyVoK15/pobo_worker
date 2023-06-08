@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
     setUserTokenRegister({})
   };
 
-  const updateProfile = async (name, phone, email, gender, dob, userToken) => {
+  const updateProfile = async (name, phone, email, gender, dob, avatarUrl, userToken) => {
     setIsLoading(true);
     await axios
       .put("http://192.168.1.7:8448/api/v1/photographer/profile", {
@@ -106,6 +106,7 @@ export const AuthProvider = ({ children }) => {
         email,
         gender,
         dob,
+        avatarUrl,
       }, {
         headers: {
           Authorization: `Bearer ${userToken}`,

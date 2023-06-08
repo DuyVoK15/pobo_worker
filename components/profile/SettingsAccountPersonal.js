@@ -30,7 +30,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
   // BẮT ĐẦU khai báo biến Image
   const imageIcon = require("../../assets/logo/logo.png");
   const imageVoDien =
-    "https://khoinguonsangtao.vn/wp-content/uploads/2022/10/anh-vo-dien-chibi-cute-dang-yeu.jpg";
+    "http://192.168.1.7:8448/api/image/48A71B21-5855-47F5-B1EA-F27855314F76-1686222292698.png";
   // KẾT THÚC khai báo biến Image
 
   // BẮT ĐẦU xử lí useEffect
@@ -72,6 +72,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
       email,
       genderValue,
       formatDateToAPI(date),
+      avatar,
       userToken.accessToken
     );
     console.log("date: " + typeof date)
@@ -81,8 +82,6 @@ const SettingsAccountPersonal = ({ navigation }) => {
   // BẮT ĐẦU xử lí hình ảnh Upload
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [avatar, setAvatar] = useState(null);
-  const [image, setImage] = useState(null);
-  const [imageShow, setImageShow] = useState(null);
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -97,7 +96,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
       let filename = localUri.split("/").pop();
       let match = /\.(\w+)$/.exec(filename);
       let type = match ? `image/${match[1]}` : `image`;
-      setImage(result.assets[0].uri);
+      setAvatar(result.assets[0].uri);
       uploadImage(localUri, filename, type);
       console.log(
         "{ \n uri: " +
@@ -113,26 +112,26 @@ const SettingsAccountPersonal = ({ navigation }) => {
 
   const uploadImage = async (uri, name, type) => {
     try {
-      let formData = new FormData();
-      formData.append("file-attachment", {
+      const formData = new FormData();
+      formData.append("files", {
         uri,
         type,
-        name,
-        fileName: "image",
+        name,       
       });
 
-      let res = await axios.post(
+      const res = await axios.post(
         "http://192.168.1.7:8448/api/image",
         formData,
         {
           headers: {
-            Accept: "application/json",
+            Accept: "*/*",
             "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      console.log("Upload successful:", res.data);
+      console.log("Upload successful:", res.data["0"]);
+      setAvatar(res.data["0"].replace("localhost", "192.168.1.7"));
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -187,7 +186,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
       {/* Avatar */}
       <View style={styles.imageStyle}>
         <Image
-          source={{ uri: image ? image : imageVoDien }}
+          source={{ uri: avatar ? avatar : imageVoDien }}
           style={styles.avatar}
         />
       </View>
