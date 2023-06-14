@@ -1,3 +1,14 @@
+import * as Font from "expo-font";
+
+const loadCustomFonts = async () => {
+  await Font.loadAsync({
+    regular: require("../../assets/fonts/BeVietnamPro-Regular.ttf"),
+    medium: require("../../assets/fonts/BeVietnamPro-Medium.ttf"),
+    bold: require("../../assets/fonts/BeVietnamPro-Bold.ttf"),
+    // Thêm các font chữ tuỳ chỉnh khác nếu cần
+  });
+};
+
 const COLORS = {
   orange10: "#FEEAD3",
   orange20: "#FED0A8",
@@ -57,6 +68,15 @@ const SHADOWS = {
     shadowRadius: 5.84,
     elevation: 5,
   },
+  beauty: {
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
+  },
 };
 
-export { COLORS,SHADOWS,SIZES,FONT }; 
+export { COLORS, SHADOWS, SIZES, FONT, loadCustomFonts };

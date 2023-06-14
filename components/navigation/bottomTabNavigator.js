@@ -11,6 +11,8 @@ import { NavigationContainer } from "@react-navigation/native";
 // import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 import UserProfile from "../profile/UserProfile";
+import BookingManagement from "../booking/BookingManagement";
+import StatisticScreen from "../statistic/StatisticScreen";
 
 export default function BottomNavigator() {
     
@@ -19,17 +21,22 @@ export default function BottomNavigator() {
     // <NavigationContainer>
     <Tab.Navigator
         screenOptions={({route}) => ({
+          tabBarStyle: { backgroundColor: "white", height: 100, borderTopLeftRadius: 35, borderTopRightRadius: 35, shadowColor: 'black',
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 0, height: -2 },
+          shadowRadius: 6,
+          elevation: 5, },      
             headerShown : false,
             tabBarIcon: ({color, size, focused})=> {
                 let iconName;
                 if(route.name === ROUTES.HOME_TAB ){
                     iconName = focused ? 'home' : 'home-outline';
                 }
-                 else if (route.name === 'Map' ){
-                    iconName = focused ? 'map' : 'map-outline';
+                 else if (route.name === 'Statistic' ){
+                    iconName = focused ? 'bar-chart' : 'bar-chart-outline';
                 }
-                else if (route.name === 'Schedule' ){
-                    iconName = focused ? 'reader' : 'reader-outline';
+                else if (route.name === 'BookingManagement' ){
+                    iconName = focused ? 'calendar' : 'calendar-outline';
                 }
                 else if (route.name === 'Chat' ){
                     iconName = focused ? 'chatbubble' : 'chatbubble-outline';
@@ -51,8 +58,8 @@ export default function BottomNavigator() {
               }}
             >
       <Tab.Screen name={ROUTES.HOME_TAB} component={HomeScreen} />
-      <Tab.Screen name="Map" component={HomeScreen} />
-      <Tab.Screen name="Schedule" component={HomeScreen} />
+      <Tab.Screen name="Statistic" component={StatisticScreen} />
+      <Tab.Screen name="BookingManagement" component={BookingManagement} />
       <Tab.Screen name="Chat" component={HomeScreen} />
       <Tab.Screen name="UserProfile" component={UserProfile} />
 

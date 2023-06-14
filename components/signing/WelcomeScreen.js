@@ -26,9 +26,10 @@ const WelcomeScreen = ({ navigation }) => {
         ></Image>
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.text1}>Chào mừng</Text>
+        <Text style={styles.text1}>Chào mừng đến với</Text>
+        <Text style={styles.text1}>POBO Worker</Text>
         <Text style={styles.text2}>
-          Để sử dụng ứng dụng đặt nhiếp ảnh gia, xin hãy kí tài khoản trước
+          Để trở thành nhiếp ảnh gia, xin hãy đăng ký tài khoản trước
         </Text>
       </View>
       <View style={styles.buttonContainer}>

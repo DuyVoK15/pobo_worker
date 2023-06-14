@@ -23,6 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatDateToAPI, formatDateToYYYYMMDD } from "../../utils/FormatDate";
 import { AuthContext } from "../../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
+import { IPv4 } from "../../utils/config";
 // import RNPickerSelect from "react-native-picker-select";
 // import { Dropdown } from "react-native-paper";
 // import RadioButtonsGroup from "react-native-radio-buttons-group";
@@ -30,7 +31,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
   // BẮT ĐẦU khai báo biến Image
   const imageIcon = require("../../assets/logo/logo.png");
   const imageVoDien =
-    "http://192.168.1.7:8448/api/image/48A71B21-5855-47F5-B1EA-F27855314F76-1686222292698.png";
+    "https://khoinguonsangtao.vn/wp-content/uploads/2022/10/anh-vo-dien-chibi-cute-dang-yeu.jpg";
   // KẾT THÚC khai báo biến Image
 
   // BẮT ĐẦU xử lí useEffect
@@ -120,7 +121,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
       });
 
       const res = await axios.post(
-        "http://192.168.1.7:8448/api/image",
+        `http://${IPv4}:8448/api/image`,
         formData,
         {
           headers: {
@@ -131,7 +132,7 @@ const SettingsAccountPersonal = ({ navigation }) => {
       );
 
       console.log("Upload successful:", res.data["0"]);
-      setAvatar(res.data["0"].replace("localhost", "192.168.1.7"));
+      setAvatar(res.data["0"].replace("localhost", `${IPv4}`));
     } catch (error) {
       console.error("Upload failed:", error);
     }

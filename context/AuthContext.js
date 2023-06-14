@@ -2,11 +2,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useState } from "react";
 import { saveDataToStorage } from "./AsyncStorage";
+import { IPv4 } from "../utils/config";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState({});
   const [userTokenRegister, setUserTokenRegister] = useState({});
+  const [bookingList, setBookingList] = useState([]);
+  const [countAllBooking, setCountAllBooking] = useState('')
+  const [bookingData, setBookingData] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -15,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     // setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://192.168.1.7:8448/api/v1/auth/photographer/info",
+        `http://${IPv4}:8448/api/v1/auth/photographer/info`,
         {
           headers: {
             Authorization: `Bearer ${userToken.accessToken}`,
@@ -43,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     // console.log(name + username + email + password)
     setIsLoading(true);
     axios
-      .post("http://192.168.1.7:8448/api/v1/auth/photographer/register", {
+      .post(`http://${IPv4}:8448/api/v1/auth/photographer/register`, {
         name,
         username,
         email,
@@ -68,7 +72,7 @@ export const AuthProvider = ({ children }) => {
   const login = (username, password) => {
     setIsLoading(true);
     axios
-      .post("http://192.168.1.7:8448/api/v1/auth/photographer/login", {
+      .post(`http://${IPv4}:8448/api/v1/auth/photographer/login`, {
         username,
         password,
       })
@@ -100,7 +104,7 @@ export const AuthProvider = ({ children }) => {
   const updateProfile = async (name, phone, email, gender, dob, avatarUrl, userToken) => {
     setIsLoading(true);
     await axios
-      .put("http://192.168.1.7:8448/api/v1/photographer/profile", {
+      .put(`http://${IPv4}:8448/api/v1/photographer/profile`, {
         name,
         phone,
         email,
@@ -128,17 +132,71 @@ export const AuthProvider = ({ children }) => {
         // setIsLogin(false);
       });
   }
+  
+  const getListBooking = async (accessToken) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken.accessToken}`,
+      },
+      params: {
+        hl: "en",
+        select: '["$all"]',
+        where: "{}",
+        limit: "unlimited",
+        page: 1,
+        order: "[]",
+      },
+    };
+    try {
+      const res = await axios.get(
+        `http://${IPv4}:8448/api/v1/photographer/booking`,
+        config
+      );
+      console.log("AccessToken: " + accessToken);
+      console.log("List Booking: " + JSON.stringify(res.data.row));
+
+      // const data = await Promise.all(
+      //   res.data.row.map(async (booking) => {
+      //     const photographerData = await getPhotographerById(
+      //       booking.photographerId
+      //     );
+      //     return {
+      //       ...booking,
+      //       photographerData,
+      //     };
+      //   })
+      // );
+      setBookingList(res.data.row)
+      setBookingData(data);
+      setCountAllBooking(res.data.count)
+      console.log("[COUNT] " + res.data.count)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <AuthContext.Provider
       value={{
         isLoading,
         userToken,
+        userInfo,
         userTokenRegister,
+        bookingList,
+        // photographerList,
+        // bookingListByStatus,
+        bookingData,
+        countAllBooking,
         register,
         login,
         logout,
+        getUserInfo,
         updateProfile,
+        getListBooking,
+        // getListBookingByStatus,
+        // getAllPhotographer,
+        // getPhotographerById,
+        // createBookingById,
         isLogin,
       }}
     >

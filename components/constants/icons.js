@@ -11,3 +11,6 @@ export default {
     manager,
     map
 };  
+
+import location from "../../assets/location.png";
+import clock_outline from "../../assets/clock-outline.png"
