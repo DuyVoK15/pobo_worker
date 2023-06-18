@@ -1,7 +1,7 @@
-import React  from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from '../home/HomeScreen'
-import {COLORS, ROUTES} from '../constants'
+import HomeScreen from "../home/HomeScreen";
+import { COLORS, ROUTES } from "../constants";
 // import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,60 +9,59 @@ import { NavigationContainer } from "@react-navigation/native";
 // import Icon from 'react-native-ionicons'
 // import Icon from 'react-native-vector-icons/MaterialIcons'
 // import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import UserProfile from "../profile/UserProfile";
 import BookingManagement from "../booking/BookingManagement";
 import StatisticScreen from "../statistic/StatisticScreen";
 
-export default function BottomNavigator() {
-    
+export default function BottomNavigator({navigation}) {
   const Tab = createBottomTabNavigator();
   return (
     // <NavigationContainer>
     <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarStyle: { backgroundColor: "white", height: 100, borderTopLeftRadius: 35, borderTopRightRadius: 35, shadowColor: 'black',
+      screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: "white",
+          height: 80,
+          borderTopLeftRadius: 35,
+          borderTopRightRadius: 35,
+          shadowColor: "black",
           shadowOpacity: 0.2,
           shadowOffset: { width: 0, height: -2 },
           shadowRadius: 6,
-          elevation: 5, },      
-            headerShown : false,
-            tabBarIcon: ({color, size, focused})=> {
-                let iconName;
-                if(route.name === ROUTES.HOME_TAB ){
-                    iconName = focused ? 'home' : 'home-outline';
-                }
-                 else if (route.name === 'Statistic' ){
-                    iconName = focused ? 'bar-chart' : 'bar-chart-outline';
-                }
-                else if (route.name === 'BookingManagement' ){
-                    iconName = focused ? 'calendar' : 'calendar-outline';
-                }
-                else if (route.name === 'Chat' ){
-                    iconName = focused ? 'chatbubble' : 'chatbubble-outline';
-                }
-                else if (route.name === 'UserProfile' ){
-                    iconName = focused ? 'person' : 'person-outline';
-                }
+          elevation: 5,
+        },
+        headerShown: false,
+        tabBarIcon: ({ color, size, focused }) => {
+          let iconName;
+          if (route.name === ROUTES.HOME_TAB) {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Statistic") {
+            iconName = focused ? "bar-chart" : "bar-chart-outline";
+          } else if (route.name === "BookingManagement") {
+            iconName = focused ? "calendar" : "calendar-outline";
+          } else if (route.name === "Chat") {
+            iconName = focused ? "chatbubble" : "chatbubble-outline";
+          } else if (route.name === "UserProfile") {
+            iconName = focused ? "person" : "person-outline";
+          }
 
-
-                return <Ionicons name={iconName} size ={20} color={COLORS.orange50} />
-            },
-            })}
-            tabBarOptions={{
-                showLabel: false,
-                style: {
-                  borderTopLeftRadius: 40,
-                  borderTopRightRadius: 40,
-                },
-              }}
-            >
-      <Tab.Screen name={ROUTES.HOME_TAB} component={HomeScreen} />
+          return <Ionicons name={iconName} size={20} color={COLORS.orange50} />;
+        },
+      })}
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          // borderTopLeftRadius: 40,
+          // borderTopRightRadius: 40,
+        },
+      }}
+    >
+      <Tab.Screen name={ROUTES.HOME_TAB} component={HomeScreen} navigation={navigation} />
       <Tab.Screen name="Statistic" component={StatisticScreen} />
       <Tab.Screen name="BookingManagement" component={BookingManagement} />
       <Tab.Screen name="Chat" component={HomeScreen} />
       <Tab.Screen name="UserProfile" component={UserProfile} />
-
     </Tab.Navigator>
     // </NavigationContainer>
   );

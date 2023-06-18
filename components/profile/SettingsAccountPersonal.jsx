@@ -13,9 +13,9 @@ import * as ImagePicker from "expo-image-picker";
 // import { Picker } from "@react-native-picker/picker";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
-import InputTextStyle from "../../styles/InputTextStyle";
+
 import { useContext, useEffect, useState } from "react";
-import ButtonStyle from "../../styles/ButtonStyle";
+
 import DropDownPicker from "react-native-dropdown-picker";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
@@ -24,6 +24,8 @@ import { formatDateToAPI, formatDateToYYYYMMDD } from "../../utils/FormatDate";
 import { AuthContext } from "../../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay";
 import { IPv4 } from "../../utils/config";
+import { InputTextStyle } from "../../styles/InputTextStyle";
+import { ButtonStyle } from "../../styles/ButtonStyle";
 // import RNPickerSelect from "react-native-picker-select";
 // import { Dropdown } from "react-native-paper";
 // import RadioButtonsGroup from "react-native-radio-buttons-group";

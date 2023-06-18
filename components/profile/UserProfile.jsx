@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import ButtonStyle from "../../styles/ButtonStyle";
+
 import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, SIZES } from "../constants";
@@ -14,12 +14,13 @@ import { Image } from "react-native";
 import { ScrollView } from "react-native";
 import { Icon } from "./IconProfile";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ButtonStyle } from "../../styles/ButtonStyle";
 
 const UserProfile = ({ navigation }) => {
   const imageVoDien =
     "https://toigingiuvedep.vn/wp-content/uploads/2022/04/hinh-avatar-anh-vo-dien-cute.jpg";
-  const { logout, userInfo, userToken, isLoading } = useContext(AuthContext);
-  const [info, setInfo] = useState({});
+  const { logout, userToken, isLoading } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState({});
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -31,9 +32,8 @@ const UserProfile = ({ navigation }) => {
   });
 
   const fetchData = async () => {
-    const value = await AsyncStorage.getItem("userInfo");
-    const parseValue = JSON.parse(value);
-    setInfo(parseValue);
+    const userInfo = await AsyncStorage.getItem("userInfo");
+    setUserInfo(JSON.parse(userInfo));
   };
 
   useEffect(() => {
@@ -50,6 +50,10 @@ const UserProfile = ({ navigation }) => {
     navigation.push("SettingsAccountPersonal");
   };
 
+  const handleLogout = async () => {
+    await logout();
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -57,7 +61,7 @@ const UserProfile = ({ navigation }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Spinner visible={isLoading} />
+      {/* <Spinner visible={isLoading} /> */}
       <View style={styles.container}>
         <View style={styles.containerTextHeader}>
           <Text style={styles.textHeader}>Trang cá nhân</Text>
@@ -67,14 +71,14 @@ const UserProfile = ({ navigation }) => {
           <View style={styles.avatarStyle}>
             <Image
               source={{
-                uri: info.avatarUrl ? info.avatarUrl : imageVoDien,
+                uri: userInfo.avatarUrl ? userInfo.avatarUrl : imageVoDien,
               }}
               style={{ width: 70, height: 70, borderRadius: 100 }}
             />
           </View>
           <View style={styles.column2}>
             <TouchableOpacity onPress={handleNavigateToSetting}>
-              <Text style={styles.textName}> {info.name?info.name:"Vui lòng đăng nhập"}</Text>
+              <Text style={styles.textName}> {userInfo.name?userInfo.name:"Vui lòng đăng nhập"}</Text>
               <Text style={styles.textName2}> Bạn là thợ chụp ảnh</Text>
             </TouchableOpacity>
           </View>
@@ -245,7 +249,7 @@ const UserProfile = ({ navigation }) => {
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={ButtonStyle.buttonSignup}
-            onPress={() => logout()}
+            onPress={() => handleLogout()}
           >
             <Text style={ButtonStyle.buttonSignupText}>Đăng xuất</Text>
           </TouchableOpacity>

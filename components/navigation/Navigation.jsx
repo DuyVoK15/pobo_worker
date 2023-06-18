@@ -12,17 +12,19 @@ import { AuthContext } from "../../context/AuthContext";
 import { createStackNavigator } from "@react-navigation/stack";
 import SigninModal from "../signing/SigninModal";
 import FirstOnboarding from "../onboarding/FirstOnboarding";
-
+import PackageShootingCreate from "../home/PackageShootingCreate";
+import PackageShootingCreateNext from "../home/PackageShootingCreateNext";
+import PackageShootingSuccess from "../home/PackageShootingSuccess";
 
 const IntroStack = createStackNavigator();
 const IntroStackScreen = () => {
   return (
     <IntroStack.Navigator>
       <IntroStack.Screen
-          options={{ headerShown: false }}
-          name="SwiperOnboarding"
-          component={SwiperOnboarding}
-        />
+        options={{ headerShown: false }}
+        name="SwiperOnboarding"
+        component={SwiperOnboarding}
+      />
     </IntroStack.Navigator>
   );
 };
@@ -72,24 +74,45 @@ const HomeStackScreen = () => {
         component={SettingsAccountPersonal}
       />
 
-<HomeStack.Screen
+      <HomeStack.Screen
         options={{ headerShown: false }}
         name="UserProfile"
         component={BottomNavigator}
+      />
+
+      <HomeStack.Screen
+        options={{ headerShown: false }}
+        name="PackageShootingCreate"
+        component={PackageShootingCreate}
+      />
+      <HomeStack.Screen
+        options={{ headerShown: false }}
+        name="PackageShootingCreateNext"
+        component={PackageShootingCreateNext}
+      />
+      <HomeStack.Screen
+        options={{ headerShown: false }}
+        name="PackageShootingSuccess"
+        component={PackageShootingSuccess}
       />
     </HomeStack.Navigator>
   );
 };
 
 const Navigation = () => {
-  const { userToken } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <NavigationContainer>
-      
-      {userToken.accessToken ? <HomeStackScreen /> : <AuthStackScreen />}
+      {isLoggedIn ? <HomeStackScreen /> : <AuthStackScreen />}
     </NavigationContainer>
   );
+
+  // return (
+  //   <NavigationContainer>
+  //     {userToken.accessToken ? <HomeStackScreen /> : <AuthStackScreen />}
+  //   </NavigationContainer>
+  // );
 };
 
 export default Navigation;

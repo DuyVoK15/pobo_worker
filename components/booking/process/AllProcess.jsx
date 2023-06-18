@@ -35,7 +35,7 @@ const AllProcess = () => {
   });
 
   const fetchData = async () => {
-    await getListBooking(userToken.accessToken);
+    await getListBooking();
   };
 
   useEffect(() => {
